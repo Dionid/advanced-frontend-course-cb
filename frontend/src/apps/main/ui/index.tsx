@@ -2,19 +2,42 @@ import React from "react"
 import {ThemeProvider} from '@material-ui/core/styles'
 import {CssBaseline} from "@material-ui/core";
 import {theme} from "../../../theme";
-import {Index} from "../../../modules/pages";
 import {Provider} from "react-redux";
 import {persistor, store} from "../infra/redux/store";
 import {GlobalDependenciesContextProvider} from "./contexts/GlobalDependecies";
 import {PersistGate} from 'redux-persist/integration/react'
-import {GlobalModalContextProvider} from "libs/react/components/GlobalModal";
+import {GlobalModalContextProvider, Modal} from "libs/react/components/GlobalModal";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {HomePage} from "../../../modules/pages/home";
+import {RoomsPage} from "../../../modules/pages/room/ui";
+import {AuthPage} from "../../../modules/pages/auth";
+import {AuthNProtectedRoute} from "../../../modules/pages/common/ui/AuthNProtectedRoute";
+import {PAPage} from "../../../modules/pages/pa/ui";
+
+
+
+const Router = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={HomePage}/>
+        <Route path="/rooms" component={RoomsPage}/>
+        <Route path="/auth" component={AuthPage}/>
+        <AuthNProtectedRoute>
+          <Route path="/pa" component={PAPage}/>
+        </AuthNProtectedRoute>
+      </Switch>
+      <Modal/>
+    </BrowserRouter>
+  )
+}
 
 const AppInner = () => {
   return (
     <>
-      <Index/>
+      <Router/>
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

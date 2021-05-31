@@ -1,7 +1,7 @@
 import React from "react"
 import {ThemeProvider} from '@material-ui/core/styles'
 import {CssBaseline} from "@material-ui/core";
-import {theme} from "../../../theme";
+import {theme} from "./theme";
 import {Provider} from "react-redux";
 import {persistor, store} from "../infra/redux/store";
 import {GlobalDependenciesContextProvider} from "./contexts/GlobalDependecies";

@@ -8,6 +8,7 @@ import {RoomCreateCtxStateForm} from "../../../../../../widgets/rooms/create/ui/
 import {IsRoomDescriptionValid, IsRoomNameValid} from "../../../../../../global/rooms/core/validations";
 import {useGlobalDependenciesContext} from "../../../../../../global/ui/contexts/GlobalDependenciesCtx";
 import {canUserDeleteRoom, canUserEditRoom} from "../../../../../../global/rooms/core/permissions";
+import {toast} from "react-toastify";
 
 const defaultRoomData: Room = {
   id: "",
@@ -32,6 +33,7 @@ interface RoomInfoPageContext {
   state: {
     roomData: Room,
     editMode: boolean,
+    loading: boolean,
     control: Control<RoomInfoPageContextForm>,
     showChatWidget: boolean,
     showVideoScreen: boolean,
@@ -61,6 +63,7 @@ export const RoomInfoPageContextProvider: FunctionComponent = ({children}) => {
       description: "",
     }
   });
+  const [loading, setLoading] = useState(false)
   const [roomData, setRoomData] = useState(defaultRoomData)
   const [editMode, setEditMode] = useState(false)
   const { id } = useParams() as { id: string }
@@ -74,6 +77,7 @@ export const RoomInfoPageContextProvider: FunctionComponent = ({children}) => {
       setRoomData,
       selectors.getMyId,
       gqlApi,
+      setLoading,
     )
   }, [])
 
@@ -132,11 +136,15 @@ export const RoomInfoPageContextProvider: FunctionComponent = ({children}) => {
       onCancelEditMode()
       return
     }
-    await roomRepository.editRoom({
-      roomId: roomData.id,
-      name: data.name,
-      description: data.description,
-    })
+    try {
+      await roomRepository.editRoom({
+        roomId: roomData.id,
+        name: data.name,
+        description: data.description,
+      })
+    } catch (e) {
+      toast.error("Something bad happend :( Try again later")
+    }
     onCancelEditMode()
   })
 
@@ -160,6 +168,7 @@ export const RoomInfoPageContextProvider: FunctionComponent = ({children}) => {
         roomData,
         editMode,
         control,
+        loading,
         showChatWidget: isAuthenticated,
         showVideoScreen: isAuthenticated,
       },
@@ -174,7 +183,7 @@ export const RoomInfoPageContextProvider: FunctionComponent = ({children}) => {
         onCancelEditMode,
       }
     }
-  }, [roomData, control, editMode, myId])
+  }, [roomData, control, editMode, myId, loading])
   return (
     <RoomInfoPageContext.Provider value={value}>
       { children }

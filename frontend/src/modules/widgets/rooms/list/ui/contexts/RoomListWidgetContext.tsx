@@ -1,6 +1,6 @@
 import {createContext, FunctionComponent, useContext, useEffect, useMemo, useState} from "react";
 import {ActiveFilters, RoomsSearchIndex} from "../../core/entities/search";
-import {UrlService} from "../../utils/UrlService";
+import {UrlService} from "../../infra/url/UrlService";
 import {RoomListUC} from "../../core/usecases/roomListUC";
 import {MainRepository} from "../../infra/repositories/mainRepository";
 import {useHistory, useLocation} from "react-router-dom"

@@ -36,7 +36,7 @@ const RoomInfo = () => {
             </div>
             {
               roomData.description && (
-                <Typography variant={"body1"} style={{paddingTop: 30}}>
+                <Typography variant={"body1"}>
                   { roomData.description }
                 </Typography>
               )
@@ -94,7 +94,7 @@ const RoomInfo = () => {
           </form>
         )
       }
-      <div style={{paddingTop: 30}}>
+      <div style={{paddingTop: 15, opacity: 0.5}}>
         <Typography variant={"body1"}>
           Created by { roomData.author.username }
         </Typography>

@@ -13,7 +13,7 @@ const RoomInfoPageInner = () => {
   const { id } = useParams() as { id: string }
   const history = useHistory()
   const { state } = useRoomInfoPageContext()
-  const { roomData, showChatWidget, showVideoScreen } = state
+  const { roomData, loading, showChatWidget, showVideoScreen } = state
 
   useDidMountEffect(() => {
     history.go(0)
@@ -21,13 +21,13 @@ const RoomInfoPageInner = () => {
 
   return (
     <MainLayout>
-      <Grid container justify={"center"} style={{padding: "30px 0", opacity: roomData.deleted ? "0.5" : "1", pointerEvents: roomData.deleted ? "none" : "all" }}>
+      <Grid container justify={"center"} style={{padding: "30px 0", opacity: roomData.deleted || loading ? "0.3" : "1", pointerEvents: roomData.deleted || loading ? "none" : "all" }}>
         <Grid item xs={12}>
-          {
-            showVideoScreen
-              ? <div style={{width: "100%", backgroundColor: "#eee", borderRadius: 20, height: 300}}/>
-              : <div style={{width: "100%", backgroundColor: "#000", borderRadius: 20, height: 300}}/>
-          }
+          <div style={{width: "100%", backgroundColor: "#eee", borderRadius: 20, height: 300, display: "flex", justifyContent: "center", alignItems: "center"}}>
+            {
+              !showVideoScreen && <div>You have no access to video</div>
+            }
+          </div>
         </Grid>
         <Grid item sm={6}>
           <RoomInfo/>

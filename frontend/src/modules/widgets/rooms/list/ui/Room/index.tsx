@@ -1,10 +1,12 @@
 import {Card, CardContent, makeStyles, Typography} from "@material-ui/core";
 import {red} from "@material-ui/core/colors";
 import {FunctionComponent, memo} from "react";
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    width: "100%",
+    height: "100%"
   },
   media: {
     height: 0,
@@ -23,6 +25,16 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  closed: {
+    opacity: 0.5,
+    pointerEvents: "none"
+  },
+  content: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column"
+  }
 }));
 
 interface RoomProps {
@@ -31,7 +43,10 @@ interface RoomProps {
   description: string
   createdAt: Date
   activeMembersNumber: number
-  author: string
+  author: {
+    id: string
+    username: string
+  }
   onRoomClick: (id: string) => void
   closed: boolean
 }
@@ -49,26 +64,27 @@ const Room: FunctionComponent<RoomProps> = function Room(props) {
   } = props
   const classes = useStyles()
   return (
-    <Card className={classes.root} variant={"outlined"}>
-      <CardContent>
-        <Typography style={{cursor: "pointer"}} variant="body2" color="textSecondary" component="p" onClick={ () => onRoomClick(id) }>
-          Name: { name }
+    <Card className={clsx(classes.root, closed && classes.closed)} variant={"outlined"}>
+      <CardContent className={ classes.content }>
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+          <Typography style={{cursor: "pointer"}} variant="body1" color="textSecondary" component="p" onClick={ () => onRoomClick(id) }>
+            { name }
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            👫 { activeMembersNumber }
+          </Typography>
+        </div>
+        <Typography variant="body2" color="textSecondary" component="p" style={{paddingTop: 5, marginBottom: 15}}>
+          { description }
         </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-          Description: { description }
-        </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-          CreatedAt: { createdAt.toISOString() }
-        </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-          ActiveMembersNumber: { activeMembersNumber }
-        </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-          Author: { author }
-        </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-          Closed: { `${closed}` }
-        </Typography>
+        <div style={{display: "flex", justifyContent: "space-between", marginTop: "auto"}}>
+          <Typography variant="body2" color="textSecondary" component="p">
+            { author.username }
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            { createdAt.toLocaleString("ru-RU") }
+          </Typography>
+        </div>
       </CardContent>
     </Card>
   )

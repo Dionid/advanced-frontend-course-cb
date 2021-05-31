@@ -45,7 +45,7 @@ const RoomsListWidgetInner = () => {
             roomsList.map((room) => {
               if (!room) return null
               return (
-                <Grid item key={room.id} style={{padding: "15px"}}>
+                <Grid item key={room.id} style={{padding: "15px", width: "33%", display: "flex", minHeight: 150}}>
                   <Room
                     id={room.id}
                     onRoomClick={ onRoomClick }

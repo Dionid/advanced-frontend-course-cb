@@ -42,7 +42,6 @@ const RegisterPageInner = () => {
                 ({ field: { onChange, value }, fieldState: { error } }) => {
                   return (
                     <TextField
-                      id="outlined-basic"
                       label="Email"
                       variant="outlined"
                       error={!!error}
@@ -61,7 +60,7 @@ const RegisterPageInner = () => {
                 ({ field: { onChange, value }, fieldState: { error } }) => {
                   return (
                     <TextField
-                      id="outlined-basic"
+                      style={{marginTop: 15}}
                       label="Username"
                       variant="outlined"
                       error={!!error}
@@ -79,7 +78,7 @@ const RegisterPageInner = () => {
               render={
                 ({ field: { onChange, value }, fieldState: { error } }) => {
                   return (
-                    <FormControl error={!!error} variant={"outlined"}>
+                    <FormControl error={!!error} variant={"outlined"} style={{marginTop: 15}}>
                       <InputLabel htmlFor="password">Password</InputLabel>
                       <OutlinedInput
                         type={showPassword ? 'text' : 'password'}
@@ -105,7 +104,7 @@ const RegisterPageInner = () => {
                 }
               }
             />
-            <Button variant="contained" color="primary" type="submit">
+            <Button variant="contained" color="primary" type="submit" style={{marginTop: 15}}>
               Register
             </Button>
           </form>

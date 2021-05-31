@@ -142,7 +142,7 @@ export const PersonalInfoWidgetPasswordEdit: FunctionComponent<PersonalInfoWidge
           render={
             ({ field: { onChange, value }, fieldState: { error } }) => {
               return (
-                <FormControl error={!!error} variant={"outlined"}>
+                <FormControl error={!!error} variant={"outlined"} style={{marginTop: 15}}>
                   <InputLabel htmlFor="newPassword">New Password</InputLabel>
                   <OutlinedInput
                     type={showPassword ? 'text' : 'password'}
@@ -174,7 +174,7 @@ export const PersonalInfoWidgetPasswordEdit: FunctionComponent<PersonalInfoWidge
           render={
             ({ field: { onChange, value }, fieldState: { error } }) => {
               return (
-                <FormControl error={!!error} variant={"outlined"}>
+                <FormControl error={!!error} variant={"outlined"} style={{marginTop: 15}}>
                   <InputLabel htmlFor="newPasswordRepeat">Repeat New Password</InputLabel>
                   <OutlinedInput
                     type={showPassword ? 'text' : 'password'}
@@ -200,10 +200,10 @@ export const PersonalInfoWidgetPasswordEdit: FunctionComponent<PersonalInfoWidge
             }
           }
         />
-        <Button variant="contained" color="primary" type="submit">
+        <Button variant="contained" color="primary" type="submit" style={{marginTop: 15}}>
           Save
         </Button>
-        <Button variant="contained" color="primary" onClick={cancel}>
+        <Button variant="contained" color="default" onClick={cancel} style={{marginTop: 5}}>
           Cancel
         </Button>
       </form>

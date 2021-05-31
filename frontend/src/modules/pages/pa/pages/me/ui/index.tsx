@@ -25,7 +25,7 @@ const PersonalInfoWidgetInfo: FunctionComponent<PersonalInfoWidgetInfoProps> = (
       <Typography variant={"body1"}>
         { me.email }
       </Typography>
-      <Typography variant={"body1"}>
+      <Typography variant={"body1"} style={{opacity: 0.5, marginTop: 10}}>
         Since { me.registrationDate?.toLocaleDateString("ru-RU") }
       </Typography>
       <div style={{paddingTop: 15}}>
@@ -66,15 +66,23 @@ const PersonalInfoWidget = () => {
       }
       {
         mode === MODS.EDIT_INFO
-        && <PersonalInfoWidgetInfoEdit
-            me={me}
-            cancel={() => { setMode(MODS.INFO) }}/>
+        && (
+          <div style={{width: 400}}>
+            <PersonalInfoWidgetInfoEdit
+              me={me}
+              cancel={() => { setMode(MODS.INFO) }}/>
+          </div>
+        )
       }
       {
         mode === MODS.EDIT_PASSWORD
-        && <PersonalInfoWidgetPasswordEdit
-            me={me}
-            cancel={() => { setMode(MODS.INFO) }}/>
+        && (
+          <div style={{width: 400}}>
+            <PersonalInfoWidgetPasswordEdit
+              me={me}
+              cancel={() => { setMode(MODS.INFO) }}/>
+          </div>
+        )
       }
     </Paper>
   )

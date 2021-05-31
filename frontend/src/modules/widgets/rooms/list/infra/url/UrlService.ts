@@ -1,4 +1,4 @@
-import {ActiveFilters} from "../core/entities/search";
+import {ActiveFilters} from "../../core/entities/search";
 
 const URL_FILTERS_NAME = "activeFilters"
 

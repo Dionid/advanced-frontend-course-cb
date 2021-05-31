@@ -8,6 +8,11 @@ export interface RoomMember {
   updatedAt: Date
 }
 
+export interface RoomAuthor {
+  username: string
+  id: string
+}
+
 export interface Room {
   id: RoomID
   name: string
@@ -15,7 +20,7 @@ export interface Room {
   createdAt: Date
   updatedAt: Date
   deletedAt: Maybe<Date>
-  author: string
+  author: RoomAuthor,
   members: RoomMember[]
   activeMembers: RoomMember[]
 }
@@ -28,7 +33,7 @@ export class RoomService {
     createdAt: Date,
     updatedAt: Date,
     deletedAt: Maybe<Date>,
-    author: string,
+    author: RoomAuthor,
     members: RoomMember[],
   }): Room {
     const {

@@ -25,8 +25,11 @@ query GetRoomsListBySearchParams($limit: Int!, $offset: Int!, $_and: [room_bool_
     id
     description
     created_at
-    author_id
     deleted_at
+    author {
+      id
+      username
+    }
     members {
       id
       updated_at
@@ -155,7 +158,10 @@ export class RoomsApi {
         createdAt: new Date(r.created_at),
         deletedAt: r.deleted_at ? new Date(r.deleted_at) : null,
         updatedAt: new Date(r.updated_at),
-        author: r.author_id,
+        author: {
+          id: r.author.id,
+          username: r.author.username,
+        },
         members: r.members.map( m => ({ updatedAt: new Date(m.updated_at), userId: m.user_id})),
       })
     })

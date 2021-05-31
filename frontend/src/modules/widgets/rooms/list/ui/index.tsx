@@ -20,6 +20,8 @@ const RoomsListWidgetInner = () => {
   } = useRoomsListWidgetContext()
   const {
     roomsList,
+    loading,
+    newRoomsNotification,
   } = state
   const {
     onRoomClick,
@@ -28,12 +30,12 @@ const RoomsListWidgetInner = () => {
   } = fns
 
   return (
-    <Grid container style={{padding: "0 0 60px 0", opacity: state.loading ? "0.5" : "1", pointerEvents: state.loading ? "none" : "all",}}>
+    <Grid container style={{padding: "0 0 60px 0", opacity: loading ? "0.5" : "1", pointerEvents: loading ? "none" : "all",}}>
       <Grid container direction="row" justify={"space-between"} className={classes.searchPanel}>
         <SearchPanel/>
       </Grid>
       {
-        state.newRoomsNotification && (
+        newRoomsNotification && (
           <Grid>
             <Button color="primary" onClick={(ev) => onNewRoomGetClick()}>Get new rooms</Button>
           </Grid>
@@ -61,7 +63,7 @@ const RoomsListWidgetInner = () => {
             })
           }
           {
-            roomsList.length === 0 && <div style={{padding:15}}>No rooms found :(</div>
+            !loading && roomsList.length === 0 && <div style={{padding:15}}>No rooms found :(</div>
           }
         </Grid>
       </Grid>

@@ -1,7 +1,7 @@
 import * as React from "react";
 import {FunctionComponent, useEffect} from "react";
 import {Controller, useForm} from "react-hook-form";
-import {Button, TextField} from "@material-ui/core";
+import {Button, FormControl, TextField} from "@material-ui/core";
 import {Me} from "../../../../../../global/me/core/entities";
 import {EmailMustBeUniqueError, UsernameMustBeUniqueError} from "../../../../../../global/me/core/errors";
 import {IsEmailValid} from "../../../../../../global/common/core/validations";
@@ -80,6 +80,7 @@ export const PersonalInfoWidgetInfoEdit: FunctionComponent<PersonalInfoWidgetInf
                   helperText={error?.message}
                   onChange={onChange}
                   value={value}
+                  style={{marginTop: 15}}
                 />
               )
             }
@@ -98,15 +99,16 @@ export const PersonalInfoWidgetInfoEdit: FunctionComponent<PersonalInfoWidgetInf
                   helperText={error?.message}
                   onChange={onChange}
                   value={value}
+                  style={{marginTop: 15}}
                 />
               )
             }
           }
         />
-        <Button variant="contained" color="primary" type="submit">
+        <Button variant="contained" color="primary" type="submit" style={{marginTop: 15}}>
           Save
         </Button>
-        <Button variant="contained" color="primary" onClick={cancel}>
+        <Button variant="contained" color="default" onClick={cancel} style={{marginTop: 5}}>
           Cancel
         </Button>
       </form>

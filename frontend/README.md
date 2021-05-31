@@ -57,16 +57,16 @@
 Каждый модуль состоит из:
 
 ```
-/#{module-name} – название модуля
-    /core – слой Ядра
+/#{module-name}
+    /core
         /entities
         /usecases
         /validations
         /errors
         /permissions
-    /infra – слой Инфраструктуры
+    /infra
         /...
-    /ui – слой UI
+    /ui
         /contexts
         /components
         /containers
@@ -89,9 +89,11 @@
 
 ### /infra
 
-Сюда мы кладем по папочкам весь код, относящийся к Инфраструктуре (redux, api, logger, localstorage, etc.)
+Сюда мы кладем по папочкам весь код, относящийся к слою Инфраструктуры (redux, api, logger, localstorage, etc.)
 
 ### /ui
+
+Код UI слоя.
 
 Папка `/ui` устроена следующим образом:
 

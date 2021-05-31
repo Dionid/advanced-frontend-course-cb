@@ -15,7 +15,10 @@ subscription RoomUpdateSubscription($room_id: uuid!) {
     description
     deleted_at
     created_at
-    author_id
+    author {
+      id
+      username
+    }
     members {
       id
       updated_at
@@ -90,7 +93,10 @@ export class RoomsSubscriptionRepository {
           createdAt: new Date(room_by_pk.created_at),
           deletedAt: room_by_pk.deleted_at ? new Date(room_by_pk.deleted_at) : null,
           updatedAt: new Date(room_by_pk.updated_at),
-          author: room_by_pk.author_id,
+          author: {
+            id: room_by_pk.author.id,
+            username: room_by_pk.author.username,
+          },
           members: room_by_pk.members.map( m => ({ updatedAt: new Date(m.updated_at), userId: m.user_id})),
         })
       }).subscribe(callback)

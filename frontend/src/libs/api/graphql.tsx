@@ -1423,8 +1423,11 @@ export type GetRoomsListBySearchParamsQuery = (
     )> }
   ), room: Array<(
     { __typename?: 'room' }
-    & Pick<Room, 'updated_at' | 'name' | 'id' | 'description' | 'created_at' | 'author_id' | 'deleted_at'>
-    & { members: Array<(
+    & Pick<Room, 'updated_at' | 'name' | 'id' | 'description' | 'created_at' | 'deleted_at'>
+    & { author: (
+      { __typename?: 'user' }
+      & Pick<User, 'id' | 'username'>
+    ), members: Array<(
       { __typename?: 'room_member' }
       & Pick<Room_Member, 'id' | 'updated_at' | 'user_id'>
     )> }
@@ -1453,8 +1456,11 @@ export type RoomUpdateSubscriptionSubscription = (
   { __typename?: 'subscription_root' }
   & { room_by_pk?: Maybe<(
     { __typename?: 'room' }
-    & Pick<Room, 'updated_at' | 'name' | 'id' | 'description' | 'deleted_at' | 'created_at' | 'author_id'>
-    & { members: Array<(
+    & Pick<Room, 'updated_at' | 'name' | 'id' | 'description' | 'deleted_at' | 'created_at'>
+    & { author: (
+      { __typename?: 'user' }
+      & Pick<User, 'id' | 'username'>
+    ), members: Array<(
       { __typename?: 'room_member' }
       & Pick<Room_Member, 'id' | 'updated_at' | 'user_id'>
     )> }
@@ -1664,8 +1670,11 @@ export const GetRoomsListBySearchParamsDocument = gql`
     id
     description
     created_at
-    author_id
     deleted_at
+    author {
+      id
+      username
+    }
     members {
       id
       updated_at
@@ -1692,7 +1701,10 @@ export const RoomUpdateSubscriptionDocument = gql`
     description
     deleted_at
     created_at
-    author_id
+    author {
+      id
+      username
+    }
     members {
       id
       updated_at

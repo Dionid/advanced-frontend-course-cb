@@ -1,5 +1,5 @@
 import {ActiveFilters, RoomsSearchIndex} from "../../core/entities/search";
-import {UrlService} from "../../utils/UrlService";
+import {UrlService} from "../url/UrlService";
 import {Room} from "../../core/entities/rooms";
 import {RoomsRepository, RoomsSubscriptionRepository} from "../../core/usecases";
 

@@ -100,6 +100,8 @@ export class ChatRepository {
           content: m.body,
           createdAt: new Date(m.created_at)
         }
+      }).sort((a, b) => {
+        return a.createdAt.getTime() - b.createdAt.getTime()
       })
       await this.dispatchMessagesStore(messagesSlice.actions.upsertMany(messages))
     })

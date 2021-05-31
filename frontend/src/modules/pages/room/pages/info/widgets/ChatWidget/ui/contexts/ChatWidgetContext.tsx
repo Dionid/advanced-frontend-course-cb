@@ -100,7 +100,9 @@ export const ChatWidgetContextProvider: FunctionComponent<{ roomId: string }> = 
   }, [])
 
   const allMessages: MessageRowPropsMessage[] = useMemo(() => {
-    return messagesAdapter.getSelectors().selectAll(messages).map((m) => {
+    return messagesAdapter.getSelectors().selectAll(messages).sort((a, b) => {
+      return a.createdAt.getTime() - b.createdAt.getTime()
+    }).map((m) => {
       const mine = m.author.id === selectors.getMyId()
       const isEditing = editModeMessageId == m.id
       return {

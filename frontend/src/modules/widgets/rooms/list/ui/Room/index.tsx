@@ -6,7 +6,8 @@ import clsx from "clsx";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    height: "100%"
+    height: "100%",
+    cursor: "pointer"
   },
   media: {
     height: 0,
@@ -64,10 +65,10 @@ const Room: FunctionComponent<RoomProps> = function Room(props) {
   } = props
   const classes = useStyles()
   return (
-    <Card className={clsx(classes.root, closed && classes.closed)} variant={"outlined"}>
+    <Card className={clsx(classes.root, closed && classes.closed)} variant={"outlined"} onClick={ () => onRoomClick(id) }>
       <CardContent className={ classes.content }>
         <div style={{display: "flex", justifyContent: "space-between"}}>
-          <Typography style={{cursor: "pointer"}} variant="body1" color="textSecondary" component="p" onClick={ () => onRoomClick(id) }>
+          <Typography style={{color: "#000"}} variant="body1" color="textSecondary" component="p">
             { name }
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">

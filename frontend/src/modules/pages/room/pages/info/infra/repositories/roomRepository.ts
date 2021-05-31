@@ -77,6 +77,7 @@ export class RoomRepository {
     private saveRoom: (room: Room) => void,
     private getMyId: () => MeId,
     private gqlApi: GQLApi,
+    private saveLoading: (value: boolean) => void,
   ) {
   }
 
@@ -94,6 +95,9 @@ export class RoomRepository {
       return
     }
 
+    let firstInit = true
+
+    this.saveLoading(true)
     // . If not cached than get it from API
     this.sub = this.gqlApi.subscribe<SubscribeRoomPageDataSubscription>({
       query: SUBSCRIBE_ROOM_PAGE_BY_ID,
@@ -104,6 +108,10 @@ export class RoomRepository {
       if (!res.data || !res.data.room_by_pk) {
         // TODO. Throw error
         return
+      }
+      if (firstInit) {
+        this.saveLoading(false)
+        firstInit = false
       }
       const members: RoomMember[] = res.data.room_by_pk.members.map( m => {
           return {
@@ -160,6 +168,7 @@ export class RoomRepository {
   }
 
   public deleteRoom = async (): Promise<void> => {
+    this.saveLoading(true)
     try {
       debugger
       await this.gqlApi.mutate<DeleteRoomMutation, DeleteRoomMutationVariables>({
@@ -171,10 +180,13 @@ export class RoomRepository {
       })
     } catch (e) {
       debugger
+    } finally {
+      this.saveLoading(false)
     }
   }
 
   public editRoom = async (cmd: RoomRepositoryEditRoomCmd): Promise<void> => {
+    this.saveLoading(true)
     try {
       await this.gqlApi.mutate<EditRoomMutation, EditRoomMutationVariables>({
         mutation: EDIT_ROOM,
@@ -186,6 +198,8 @@ export class RoomRepository {
       })
     } catch (e) {
       debugger
+    } finally {
+      this.saveLoading(false)
     }
   }
 }

@@ -15,6 +15,7 @@ import {RoomsPage} from "../../../modules/pages/room";
 import {AuthPage} from "../../../modules/pages/auth";
 import {AuthNProtectedRoute} from "../../../modules/pages/common/ui/AuthNProtectedRoute";
 import {PAPage} from "../../../modules/pages/pa";
+import {ComradePage} from "../../../modules/pages/comrades";
 
 
 
@@ -26,6 +27,7 @@ const Router = () => {
         <Route path="/rooms" component={RoomsPage}/>
         <Route path="/auth" component={AuthPage}/>
         <AuthNProtectedRoute>
+          <Route path="/comrades" component={ComradePage}/>
           <Route path="/pa" component={PAPage}/>
         </AuthNProtectedRoute>
       </Switch>

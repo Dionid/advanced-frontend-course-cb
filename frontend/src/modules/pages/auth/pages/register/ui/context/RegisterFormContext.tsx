@@ -5,7 +5,7 @@ import {Control} from "react-hook-form/dist/types/form";
 import {useHistory} from "react-router-dom";
 import {IsPasswordValid} from "../../../../../../global/auth/core/validations";
 import {IsEmailValid} from "../../../../../../global/common/core/validations";
-import {IsUsernameValid} from "../../../../../../global/me/core/validations";
+import {isUsernameValid} from "../../../../../../global/me/core/validations";
 import {EmailMustBeUniqueError, UsernameMustBeUniqueError} from "../../../../../../global/me/core/errors";
 import {useGlobalDependenciesContext} from "../../../../../../global/ui/contexts/GlobalDependenciesCtx";
 
@@ -75,7 +75,7 @@ export const RegisterFormContextProvider: FunctionComponent = ({children}) => {
       validate: (password) => IsPasswordValid.check(password).map(e => e.message)[0],
     });
     register("username", {
-      validate: (password) => IsUsernameValid.check(password).map(e => e.message)[0],
+      validate: (username) => isUsernameValid({username}).map(e => e.message)[0],
     });
   }, [register]);
 

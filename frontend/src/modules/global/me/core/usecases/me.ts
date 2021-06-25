@@ -1,6 +1,6 @@
 import {MeRepository} from "./index";
 
-export interface MeUCUpdateMyInfoCmd {
+export type MeUCUpdateMyInfoCmd = {
   email: string
   username: string
 }

@@ -39,23 +39,21 @@ export class NotAuthed extends Error {
   }
 }
 
-export class MeRepository {
-  constructor(
-    private getState: () => MeModel,
-    private dispatch: Dispatch,
-    private getAuthToken: () => string,
-    private isAuthenticated: () => boolean,
-    private gqlApi: GQLApi,
-  ) {
-  }
-
-  fetchMe = async (): Promise<void> => {
-    const isAuthed = this.isAuthenticated()
+export type MeRepository = ReturnType<typeof MeRepository>
+export const MeRepository = (
+    getState: () => MeModel,
+    dispatch: Dispatch,
+    getAuthToken: () => string,
+    isAuthenticated: () => boolean,
+    gqlApi: GQLApi,
+  ) => {
+  const fetchMe = async (): Promise<void> => {
+    const isAuthed = isAuthenticated()
     if (!isAuthed) {
       throw new NotAuthed()
     }
 
-    const token = this.getAuthToken()
+    const token = getAuthToken()
     if (!token) {
       // TODO. Make as critical error
       throw new Error("no token found")
@@ -66,7 +64,7 @@ export class MeRepository {
     // . If no, than request it
     let userData: ApolloQueryResult<GetMeQuery>
     try {
-      userData = await this.gqlApi.query<GetMeQuery, GetMeQueryVariables>({
+      userData = await gqlApi.query<GetMeQuery, GetMeQueryVariables>({
         query: GET_ME,
         variables: {
           id: decoded.sub,
@@ -92,54 +90,54 @@ export class MeRepository {
     })
 
     // . Save me
-    this.dispatch(meSlice.actions.set({
+    dispatch(meSlice.actions.set({
       ...me,
       registrationDate: me.registrationDate!.toISOString(),
     }))
   }
-
-  getMe = async (): Promise<Me> => {
+  const getMe = async (): Promise<Me> => {
     // . TODO. This must be also DI
-    const state = this.getState()
+    const state = getState()
     return Me({
       ...state,
       registrationDate: new Date(state.registrationDate),
     })
   }
+  return {
+    fetchMe,
+    getMe,
+    getOrFetchMe: async (): Promise<Me> => {
+      // . Check if there is me
+      let me = await getMe()
 
-  getOrFetchMe = async (): Promise<Me> => {
-    // . Check if there is me
-    let me = await this.getMe()
+      if (!me.id) {
+        await fetchMe()
+      }
 
-    if (!me.id) {
-      await this.fetchMe()
-    }
-
-    // . Return me
-    return this.getMe()
-  }
-
-  clearMe = async (): Promise<void> => {
-    this.dispatch(meSlice.actions.clear())
-  }
-
-  updateMyInfo = async (cmd: MeUCUpdateMyInfoCmd): Promise<void> => {
-    const me = await this.getMe()
-    try {
-      await this.gqlApi.mutate<UpdateUserInfoMutation, UpdateUserInfoMutationVariables>({
-        mutation: UPDATE_MY_INFO,
-        variables: {
-          id: me.id,
-          email: cmd.email,
-          username: cmd.username,
-        }
-      })
-    } catch (e) {
-      if (e.message.includes("duplicate key value violates unique constraint")) {
-        if (e.message.includes("user_email_key")) {
-          throw new EmailMustBeUniqueError()
-        } else if (e.message.includes("user_username_key")) {
-          throw new UsernameMustBeUniqueError()
+      // . Return me
+      return getMe()
+    },
+    clearMe: async (): Promise<void> => {
+      dispatch(meSlice.actions.clear())
+    },
+    updateMyInfo: async (cmd: MeUCUpdateMyInfoCmd): Promise<void> => {
+      const me = await getMe()
+      try {
+        await gqlApi.mutate<UpdateUserInfoMutation, UpdateUserInfoMutationVariables>({
+          mutation: UPDATE_MY_INFO,
+          variables: {
+            id: me.id,
+            email: cmd.email,
+            username: cmd.username,
+          }
+        })
+      } catch (e) {
+        if (e.message.includes("duplicate key value violates unique constraint")) {
+          if (e.message.includes("user_email_key")) {
+            throw new EmailMustBeUniqueError()
+          } else if (e.message.includes("user_username_key")) {
+            throw new UsernameMustBeUniqueError()
+          }
         }
       }
     }

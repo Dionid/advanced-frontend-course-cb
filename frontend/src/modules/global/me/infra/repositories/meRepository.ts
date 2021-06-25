@@ -1,4 +1,4 @@
-import {Me} from "../../core/entities";
+import {Me, MeId} from "../../core/entities";
 import {MeModel, meSlice} from "../redux/me";
 import {Dispatch} from "@reduxjs/toolkit";
 import {ApolloQueryResult, gql} from "@apollo/client";
@@ -12,6 +12,7 @@ import jwt from "jsonwebtoken"
 import {MeUCUpdateMyInfoCmd} from "../../core/usecases/me";
 import {EmailMustBeUniqueError, UsernameMustBeUniqueError} from "../../core/errors";
 import {GQLApi} from "../../../../../libs/api/gqlApi";
+import {Email} from "../../../../../libs/dddfn/casualTypes";
 
 const GET_ME = gql`
 query GetMe($id: uuid!) {
@@ -82,28 +83,28 @@ export class MeRepository {
 
     const user = userData.data.user[0]
 
-    const me: Me = {
-      id: user.id,
+    const me: Me = Me({
+      id: MeId(user.id),
       username: user.username,
-      email: user.email,
+      email: Email(user.email),
       roles: [],
       registrationDate: new Date(user.created_at),
-    }
+    })
 
     // . Save me
     this.dispatch(meSlice.actions.set({
       ...me,
-      registrationDate: me.registrationDate!.toISOString()
+      registrationDate: me.registrationDate!.toISOString(),
     }))
   }
 
   getMe = async (): Promise<Me> => {
     // . TODO. This must be also DI
     const state = this.getState()
-    return {
+    return Me({
       ...state,
       registrationDate: new Date(state.registrationDate),
-    }
+    })
   }
 
   getOrFetchMe = async (): Promise<Me> => {

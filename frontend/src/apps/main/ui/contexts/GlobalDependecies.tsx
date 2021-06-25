@@ -42,7 +42,7 @@ export const GlobalDependenciesContextProvider: FunctionComponent = ({ children 
       authRepository,
       meRepository,
     )
-    const meUC = new MeUC(
+    const meUC = MeUC(
       meRepository,
     )
 

@@ -5,13 +5,10 @@ export interface MeUCUpdateMyInfoCmd {
   username: string
 }
 
-export class MeUC {
-  constructor(
-    private meRepo: MeRepository,
-  ) {}
-
-  updateMyInfo = async (cmd: MeUCUpdateMyInfoCmd): Promise<void> => {
-    await this.meRepo.updateMyInfo(cmd)
-    await this.meRepo.fetchMe()
+export type MeUC = ReturnType<typeof MeUC>
+export const MeUC = (meRepo: MeRepository) => ({
+  updateMyInfo: async (cmd: MeUCUpdateMyInfoCmd): Promise<void> => {
+    await meRepo.updateMyInfo(cmd)
+    await meRepo.fetchMe()
   }
-}
+})

@@ -81,19 +81,16 @@ export const MeRepository = (
 
     const user = userData.data.user[0]
 
-    const me: Me = Me({
+    const me: MeModel = {
       id: MeId(user.id),
       username: user.username,
       email: Email(user.email),
       roles: [],
-      registrationDate: new Date(user.created_at),
-    })
+      registrationDate: new Date(user.created_at).toISOString(),
+    }
 
     // . Save me
-    dispatch(meSlice.actions.set({
-      ...me,
-      registrationDate: me.registrationDate!.toISOString(),
-    }))
+    dispatch(meSlice.actions.set(me))
   }
   const getMe = async (): Promise<Me> => {
     // . TODO. This must be also DI

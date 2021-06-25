@@ -66,9 +66,11 @@ export const GlobalDependenciesContextProvider: FunctionComponent = ({ children 
       },
       routes: {
         home: () => `/`,
+        register: () => `/auth/register`,
         login: () => `/auth/login`,
         roomById: (id: string) => `/rooms/${id}`,
         pa: () => `/pa`,
+        comrades: () => `/comrades`,
       }
     }
   }, [])

@@ -26,9 +26,11 @@ export interface GlobalDependenciesContextState {
   },
   routes: {
     home: () => string,
+    register: () => string,
     login: () => string,
     roomById: (roomId: string) => string,
     pa: () => string,
+    comrades: () => string
   }
 }
 

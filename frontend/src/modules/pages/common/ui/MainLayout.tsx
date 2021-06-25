@@ -79,7 +79,7 @@ export const ProfileMenu: FunctionComponent = () => {
 }
 
 export const ProfilePanel: FunctionComponent = () => {
-  const { selectors } = useGlobalDependenciesContext()
+  const { selectors, routes } = useGlobalDependenciesContext()
 
   if (selectors.isAuthenticated()) {
     return <ProfileMenu/>
@@ -87,12 +87,12 @@ export const ProfilePanel: FunctionComponent = () => {
 
   return (
     <Fragment>
-      <Link to={"/auth/register"} style={{color: "inherit", textDecoration: "none"}}>
+      <Link to={ routes.register() } style={{color: "inherit", textDecoration: "none"}}>
         <Button color="inherit">
           Register
         </Button>
       </Link>
-      <Link to={"/auth/login"} style={{color: "inherit", textDecoration: "none"}}>
+      <Link to={ routes.login() } style={{color: "inherit", textDecoration: "none"}}>
         <Button color="inherit">
           Login
         </Button>
@@ -122,8 +122,9 @@ const RoomCreateWidgetWrapper: FunctionComponent = () => {
 export const MainLayout: FunctionComponent = ({children}) => {
   const classes = useStyles();
   const gmCtx = useGlobalModalContext()
-  const { selectors } = useGlobalDependenciesContext()
+  const { selectors, routes } = useGlobalDependenciesContext()
   const showCreateRoom = canUserCreateRoom(selectors.isAuthenticated)
+  const showComrades = selectors.isAuthenticated()
 
   return (
     <Container>
@@ -135,16 +136,20 @@ export const MainLayout: FunctionComponent = ({children}) => {
             </Typography>
           </Link>
           <div style={{"marginRight": "auto", "marginLeft": 15}}>
-            <Link to={"/"} style={{color: "inherit", textDecoration: "none"}}>
-              <Button color="inherit">
-                Home
-              </Button>
-            </Link>
             {
               showCreateRoom && (
                 <Button color="inherit" onClick={ () => gmCtx.fns.showGlobalModal(<RoomCreateWidgetWrapper/>) }>
                   Create room
                 </Button>
+              )
+            }
+            {
+              showComrades && (
+                <Link to={ routes.comrades() } style={{color: "inherit", textDecoration: "none"}}>
+                  <Button color="inherit">
+                    Comrades
+                  </Button>
+                </Link>
               )
             }
           </div>

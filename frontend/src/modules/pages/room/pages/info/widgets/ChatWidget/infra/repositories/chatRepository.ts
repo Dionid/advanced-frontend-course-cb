@@ -93,7 +93,7 @@ export class ChatRepository {
       if (!res.data) {
         return
       }
-      const messages: Message[] = res.data.message.map( m => {
+      const messages: MessageModel[] = res.data.message.map( m => {
         return {
           id: m.id,
           author: m.author,

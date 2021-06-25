@@ -1,7 +1,7 @@
 
 export type MeId = string
 
-export interface Me {
+export type Me = {
   id: MeId
   username: string
   email: string

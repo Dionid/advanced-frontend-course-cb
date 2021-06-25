@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction,} from '@reduxjs/toolkit'
 import {Me} from "../../core/entities";
 
-export interface MeModel extends Omit<Me, "registrationDate"> {
+export type MeModel = Omit<Me, "registrationDate"> & {
   registrationDate: string
 }
 

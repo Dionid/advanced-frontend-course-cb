@@ -1,10 +1,10 @@
 import {createContext, useContext} from "react";
 import {AuthNUC} from "../../auth/core/usecases/authN";
 import {MeUC} from "../../me/core/usecases/me";
-import {MeRepository as IMeRepository} from "../../me/core/usecases";
 import {MeId} from "../../me/core/entities";
 import {GQLApi} from "libs/api/gqlApi";
 import {MeModel} from "../../me/infra/redux/me";
+import {MeRepository} from "../../me/infra/repositories/meRepository";
 
 export interface GlobalDependenciesContextState {
   usecases: {
@@ -12,7 +12,7 @@ export interface GlobalDependenciesContextState {
     meUC: MeUC,
   },
   repositories: {
-    meRepository: IMeRepository,
+    meRepository: MeRepository,
   },
   infra: {
     gqlApi: GQLApi,

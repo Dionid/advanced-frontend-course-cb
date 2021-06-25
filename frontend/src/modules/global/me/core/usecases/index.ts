@@ -9,7 +9,3 @@ export interface MeRepository {
   clearMe(): Promise<void>
   updateMyInfo(cmd: MeUCUpdateMyInfoCmd): Promise<void>
 }
-
-export interface AuthNRepository {
-  isAuthenticated(): boolean
-}

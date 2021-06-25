@@ -32,20 +32,31 @@ mutation UpdateUserInfo($id: uuid!, $email: String!, $username: String!) {
 }
 `
 
+export class NotAuthed extends Error {
+  constructor() {
+    super("User is not authenticated");
+  }
+}
+
 export class MeRepository {
   constructor(
     private getState: () => MeModel,
     private dispatch: Dispatch,
     private getAuthToken: () => string,
+    private isAuthenticated: () => boolean,
     private gqlApi: GQLApi,
   ) {
   }
 
   fetchMe = async (): Promise<void> => {
-    const token = this.getAuthToken()
+    const isAuthed = this.isAuthenticated()
+    if (!isAuthed) {
+      throw new NotAuthed()
+    }
 
+    const token = this.getAuthToken()
     if (!token) {
-      // TODO. ERROR REFACTORE
+      // TODO. Make as critical error
       throw new Error("no token found")
     }
 

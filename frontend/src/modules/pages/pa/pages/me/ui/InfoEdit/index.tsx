@@ -5,7 +5,7 @@ import {Button, FormControl, TextField} from "@material-ui/core";
 import {Me} from "../../../../../../global/me/core/entities";
 import {EmailMustBeUniqueError, UsernameMustBeUniqueError} from "../../../../../../global/me/core/errors";
 import {IsEmailValid} from "../../../../../../global/common/core/validations";
-import {IsUsernameValid} from "../../../../../../global/me/core/validations";
+import {isUsernameValid} from "../../../../../../global/me/core/validations";
 import {useGlobalDependenciesContext} from "../../../../../../global/ui/contexts/GlobalDependenciesCtx";
 
 
@@ -37,7 +37,7 @@ export const PersonalInfoWidgetInfoEdit: FunctionComponent<PersonalInfoWidgetInf
       validate: (email) => IsEmailValid.check(email).map(e => e.message)[0],
     });
     register("username", {
-      validate: (username) => IsUsernameValid.check(username).map(e => e.message)[0],
+      validate: (username) => isUsernameValid({username}).map(e => e.message)[0],
     });
   }, [register]);
 

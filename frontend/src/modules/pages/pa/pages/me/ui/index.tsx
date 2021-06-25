@@ -49,10 +49,10 @@ enum MODS {
 const PersonalInfoWidget = () => {
   const { selectors } = useGlobalDependenciesContext()
   const meModel = selectors.getMe()
-  const me: Me = {
+  const me: Me = Me({
     ...meModel,
     registrationDate: new Date(meModel.registrationDate),
-  }
+  })
   const [mode, setMode] = useState(MODS.INFO)
 
   return (

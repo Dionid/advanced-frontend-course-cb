@@ -1,12 +1,11 @@
 import {IncorrectUsernameError} from "../errors";
+import {Validator} from "../../../../../libs/dddfn";
 
 
-export class IsUsernameValid {
-  public static check(username: string) {
-    const errors: Error[] = []
-    if (username.length < 5) {
-      errors.push(new IncorrectUsernameError("Username must be min 5 letters"))
-    }
-    return errors
+export const isUsernameValid = Validator<{username: string}>((ctx) => {
+  const errors: Error[] = []
+  if (ctx.username.length < 5) {
+    errors.push(new IncorrectUsernameError("Username must be min 5 letters"))
   }
-}
+  return errors
+})

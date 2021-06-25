@@ -29,7 +29,7 @@ export const GlobalDependenciesContextProvider: FunctionComponent = ({ children 
       store.dispatch,
       gqlApi,
     )
-    const meRepository = new MeRepository(
+    const meRepository = MeRepository(
       () => store.getState().me,
       store.dispatch,
       () => store.getState().auth.token,
@@ -42,7 +42,7 @@ export const GlobalDependenciesContextProvider: FunctionComponent = ({ children 
       authRepository,
       meRepository,
     )
-    const meUC = new MeUC(
+    const meUC = MeUC(
       meRepository,
     )
 

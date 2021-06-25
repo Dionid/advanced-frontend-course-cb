@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction,} from '@reduxjs/toolkit'
 import {Me, MeId} from "../../core/entities";
-import {Entity, ReverseNominal} from "../../../../../libs/dddfn";
+import {ReverseNominal} from "../../../../../libs/dddfn";
 import {Email} from "../../../../../libs/dddfn/casualTypes";
 
 export type MeModel = Readonly<Omit<ReverseNominal<Me>, "registrationDate"> & {

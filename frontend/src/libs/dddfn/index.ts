@@ -38,5 +38,3 @@ export const PermissionChecker = <T, E extends Error = Error, Token extends stri
 // testPChecker(isTaskValid) // Error
 
 
-export type VO<Token, Type> = Readonly<Nominal<Type, Token>>
-export type Entity<Token, ID, Type> = Readonly<Nominal<Type & { id: ID }, Token>>

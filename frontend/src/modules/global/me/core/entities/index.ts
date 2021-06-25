@@ -1,5 +1,6 @@
-import {Entity, Nominal, ReverseNominal} from "libs/dddfn";
+import {Nominal, ReverseNominal} from "libs/dddfn";
 import {Email} from "../../../../../libs/dddfn/casualTypes";
+import {Entity} from "../../../../../libs/dddfn/ddd";
 
 export type MeId = Nominal<string, "MeId">
 export const MeId = (value: string): MeId => {

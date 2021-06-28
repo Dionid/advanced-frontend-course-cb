@@ -1,6 +1,26 @@
 
-export type SimpleResult<E = Error> = E | undefined
-export type SimpleResultP<E = Error> = Promise<SimpleResult<E>>
+export class CodeError extends Error {
+  private code?: string
 
-export type Result<T, E = Error> = [T] | [undefined, E]
-export type ResultP<T, E = Error> = Promise<Result<T, E>>
+  constructor(message: string, code?: string) {
+    super(message)
+    this.code = code
+  }
+}
+
+// . Accessibility errors
+export class PublicError extends CodeError {
+  public internalMessage: string
+
+  constructor(publicMessage: string, internalMessage?: string, code?: string) {
+    super(publicMessage, code)
+    this.internalMessage = internalMessage || publicMessage
+  }
+}
+export class InternalError extends CodeError {}
+
+
+// . Status errors
+export class ValidationError extends PublicError {}
+export class PermissionDeniedError extends PublicError {}
+export class NotFoundError extends PublicError {}

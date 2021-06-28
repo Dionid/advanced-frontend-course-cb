@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "outDir": "build",
+    "sourceMap": true,
+    "importHelpers": true,
+    "emitDecoratorMetadata": true,
+    "noImplicitReturns": true,
     "target": "es5",
     "lib": [
       "esnext"

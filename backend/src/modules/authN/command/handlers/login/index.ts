@@ -9,7 +9,7 @@ export type LoginCommand = {
 }
 
 type UserRepository = {
-  getByEmail(email: Email): User | undefined
+  getByEmail(email: Email): Promise<User | undefined>
 }
 
 class IncorrectPasswordOrEmail extends Error {

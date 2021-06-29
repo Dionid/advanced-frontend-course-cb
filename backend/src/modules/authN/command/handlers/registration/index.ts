@@ -11,7 +11,7 @@ export type RegisterCommand = {
 
 type UserRepository = {
   checkUserExistByEmail(email: Email): Promise<boolean>
-  create(user: User): SimpleResultP
+  create(user: User): Promise<void>
 }
 
 class UserAlreadyExist extends Error {

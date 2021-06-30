@@ -3,7 +3,8 @@ import {ValidationError} from "./errors";
 
 export class EmailIsInvalid extends ValidationError {}
 
-export type Email = Nominal<string, "Email">
+const EmailToken = Symbol("Email")
+export type Email = Nominal<string, typeof EmailToken>
 export const isEmail = (value: string): value is Email => {
   if (value.includes("@")) {
     throw new EmailIsInvalid("email must contain @")

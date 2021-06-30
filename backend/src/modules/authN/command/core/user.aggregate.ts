@@ -1,18 +1,32 @@
 import {Entity} from "../../../../libs/dddfn/ddd";
-import {Nominal, ReverseNominal} from "../../../../libs/dddfn";
+import {isNominal, Nominal, ReverseNominal} from "../../../../libs/dddfn";
 import {Email} from "../../../../libs/dddfn/casualTypes";
 import {HashedPassword} from "./password.vo";
-import {Result} from "../../../../libs/dddfn/result";
+import {v4} from "uuid";
 
-export type Token = Nominal<string, "Password">
-export const Token = (id: UserId, email: Email): Token => {
+const TokenToken = Symbol("TokenToken")
+export type Token = Nominal<string, typeof TokenToken>
+export const isToken = (value: string): value is Token => {
+  // TODO. check some stuff
+  // ...
+  return true
+}
+export const Token = (value: string): Token => {
+  if (!isToken(value)) {
+    throw new Error("...")
+  }
+  return value
+}
+export const newToken = (id: UserId, email: Email): Token => {
   // TODO. add jwt and other stuff
   // ...
-  return id + email as Token
+  return Token(id + email)
 }
 
-export type UserId = Nominal<string, "UserId">
+const UserIdToken = Symbol("UserId")
+export type UserId = Nominal<string, typeof UserIdToken>
 export const isUserId = (value: string): value is UserId => {
+  // TODO. Check something
   return true
 }
 export const UserId = (value: string): UserId => {
@@ -21,17 +35,16 @@ export const UserId = (value: string): UserId => {
   }
   return value
 }
+export const newUserId = (): UserId => {
+  return v4() as UserId
+}
 
-export type User = Entity<"User", UserId, {
+const UserToken = Symbol("User")
+export type User = Entity<typeof UserToken, UserId, {
   email: Email
   password: HashedPassword
 }>
-const isUser = (user: ReverseNominal<User>): user is User => {
-  return true
-}
+const isUser = isNominal<User>(UserToken)
 export const User = (user: ReverseNominal<User>): User => {
-  if (!isUser(user)) {
-    throw new Error("Not User")
-  }
-  return user
+  return Entity(UserToken, user.id, user)
 }

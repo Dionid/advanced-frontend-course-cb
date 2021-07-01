@@ -70,29 +70,40 @@ const addItemToActiveCart = (state: ActiveCart, item: CartItem): ActiveCart => {
   })
 }
 
+// const PaidCartToken: unique symbol = Symbol("PaidCart")
+// export const isPaidCart = (value: NVO<any, any>): value is PaidCart => {
+//   return value.__TYPE__ === PaidCartToken
+// }
+// export type PaidCart = NVO<{
+//   paidItems: CartItem[]; overallPrice: number
+// }, typeof PaidCartToken>
+// const PaidCart = (values: ReverseNNominal<PaidCart>): PaidCart => {
+//   return NVO(values, PaidCartToken)
+// }
 
 const PaidCartToken: unique symbol = Symbol("PaidCart")
-export type PaidCart = NVO<{ paidItems: CartItem[]; overallPrice: number }, typeof PaidCartToken>
 export const isPaidCart = (value: NVO<any, any>): value is PaidCart => {
   return value.__TYPE__ === PaidCartToken
 }
+export type PaidCart = NVO<{
+  paidItems: CartItem[]; overallPrice: number
+}, typeof PaidCartToken>
 const PaidCart = (values: ReverseNNominal<PaidCart>): PaidCart => {
   return NVO(values, PaidCartToken)
 }
 
+
+
 type ShoppingCartState = EmptyCart | ActiveCart | PaidCart
 
 const ShoppingCartToken = Symbol("ShoppingCart")
-
 type ShoppingCart = NVO<{
   id: string
   state: ShoppingCartState
 }, typeof ShoppingCartToken>
-
 const ShoppingCart = (values: ReverseNNominal<ShoppingCart>): ShoppingCart => {
   return NVO(values, ShoppingCartToken)
 }
-
 const addItem = (cart: ShoppingCart, item: CartItem): ShoppingCart => {
   if (isActiveCart(cart.state)) {
     return {

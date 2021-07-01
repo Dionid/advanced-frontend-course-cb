@@ -1,5 +1,5 @@
-import {Nominal} from "./index";
 import {ValidationError} from "./errors";
+import {Nominal} from "../nominal";
 
 export class EmailIsInvalid extends ValidationError {}
 

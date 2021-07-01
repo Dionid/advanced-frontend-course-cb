@@ -1,9 +1,8 @@
 import {Email, isEmail} from "../../../../libs/dddfn/casualTypes";
-import {isErr, Result, SimpleResult} from "../../../../libs/dddfn/result";
-import {isUserId, User, UserId} from "../../../../modules/authN/command/core/user.aggregate";
+import {User, UserId} from "../../../../modules/authN/command/entities/user.aggregate";
 import {Knex} from "knex";
 import {UserModel, UserModelShape} from "./models";
-import {HashedPassword, isHashedPassword} from "../../../../modules/authN/command/core/password.vo";
+import {HashedPassword} from "../../../../modules/authN/command/entities/password.vo";
 
 export type UserRepository = ReturnType<typeof UserRepository>
 export const UserRepository = (knex: Knex) => {

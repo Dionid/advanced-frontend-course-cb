@@ -1,6 +1,6 @@
 import {Email} from "libs/dddfn/casualTypes";
-import {newHashedPassword, Password} from "../../core/password.vo";
-import {newToken, Token, User} from "../../core/user.aggregate";
+import {newHashedPassword, Password} from "../../entities/password.vo";
+import {newToken, Token, User} from "../../entities/user.aggregate";
 
 
 export type LoginCommand = {

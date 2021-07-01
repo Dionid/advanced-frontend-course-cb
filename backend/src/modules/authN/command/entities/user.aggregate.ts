@@ -1,8 +1,9 @@
 import {Entity} from "../../../../libs/dddfn/ddd";
-import {isNominal, Nominal, ReverseNominal} from "../../../../libs/dddfn";
+import {isNominal} from "../../../../libs/dddfn";
 import {Email} from "../../../../libs/dddfn/casualTypes";
 import {HashedPassword} from "./password.vo";
 import {v4} from "uuid";
+import {Nominal, ReverseNominal} from "../../../../libs/nominal";
 
 const TokenToken = Symbol("TokenToken")
 export type Token = Nominal<string, typeof TokenToken>

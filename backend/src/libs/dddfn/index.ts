@@ -1,20 +1,30 @@
+import {Nominal} from "../nominal";
 
-// export type Flavor<Type, Token> = Type & { readonly __FLAVOR_TYPE_TOKEN__?: Token }
-// export type ReverseFlavor<T> = Omit<T, "__FLAVOR_TYPE_TOKEN__">
-
-
-export const NominalToken = Symbol("__TYPE__")
-export type Nominal<T, Token extends symbol> = T & { readonly [NominalToken]: Token }
-export const Nominal = <T, Token extends symbol>(values: T, token: Token): Nominal<T, Token> => {
-  return {
-    ...values,
-    [NominalToken]: token,
-  }
-}
-export const isNominal = <T>(token: symbol) => (value: Nominal<any, any>): value is T => {
-  return value[NominalToken] === token
-}
-export type ReverseNominal<T> = Omit<T, typeof NominalToken>
+// const TestObjectToken: unique symbol = Symbol("TestObject")
+// type TestObject = ReturnType<typeof TestObject>
+// const [TestObject, isTestObject] = createNominalObject<{
+//   unpaidItems: string[],
+//   overallPrice: number,
+// }, typeof TestObjectToken>(TestObjectToken)
+//
+// const tc = TestObject({
+//   unpaidItems: [],
+//   overallPrice: 0,
+// })
+//
+// const TestObjectSToken: unique symbol = Symbol("TestObjectS")
+// type TestObjectS = ReturnType<typeof TestObjectS>
+// const [TestObjectS, isTestObjectS] = createNominalObject<{
+//   unpaidItems: string[],
+//   overallPrice: number,
+//   test: string,
+// }, typeof TestObjectSToken>(TestObjectSToken)
+//
+// const tcs = TestObjectS({
+//   unpaidItems: [],
+//   overallPrice: 0,
+//   test: ""
+// })
 
 const ValidatorToken = Symbol("")
 export type Validator<T, Token extends string, E extends Error> = Nominal<(ctx: T) => E[], typeof ValidatorToken>
@@ -31,6 +41,7 @@ export const PermissionChecker = <T, E extends Error = Error, Token extends stri
 ): PermissionChecker<T, Token, E> => {
   return checker as PermissionChecker<T, Token, E>
 }
+
 
 // const isTaskValid = Validator<{id: string}>((ctx): Error[] => {
 //   return []

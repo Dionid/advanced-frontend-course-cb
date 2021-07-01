@@ -1,6 +1,6 @@
 import {Email} from "libs/dddfn/casualTypes";
-import {HashedPassword, Password} from "../../core/password.vo";
-import {Token, User, UserId} from "../../core/user.aggregate";
+import {HashedPassword, Password} from "../../entities/password.vo";
+import {Token, User, UserId} from "../../entities/user.aggregate";
 import {v4} from "uuid";
 import {isErr, ResultP, SimpleResultP} from "../../../../../libs/dddfn/result";
 

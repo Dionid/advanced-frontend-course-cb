@@ -1,31 +1,5 @@
 import {Nominal} from "../nominal";
 
-// const TestObjectToken: unique symbol = Symbol("TestObject")
-// type TestObject = ReturnType<typeof TestObject>
-// const [TestObject, isTestObject] = createNominalObject<{
-//   unpaidItems: string[],
-//   overallPrice: number,
-// }, typeof TestObjectToken>(TestObjectToken)
-//
-// const tc = TestObject({
-//   unpaidItems: [],
-//   overallPrice: 0,
-// })
-//
-// const TestObjectSToken: unique symbol = Symbol("TestObjectS")
-// type TestObjectS = ReturnType<typeof TestObjectS>
-// const [TestObjectS, isTestObjectS] = createNominalObject<{
-//   unpaidItems: string[],
-//   overallPrice: number,
-//   test: string,
-// }, typeof TestObjectSToken>(TestObjectSToken)
-//
-// const tcs = TestObjectS({
-//   unpaidItems: [],
-//   overallPrice: 0,
-//   test: ""
-// })
-
 const ValidatorToken = Symbol("")
 export type Validator<T, Token extends string, E extends Error> = Nominal<(ctx: T) => E[], typeof ValidatorToken>
 export const Validator = <T, E extends Error = Error, Token extends string = "">(

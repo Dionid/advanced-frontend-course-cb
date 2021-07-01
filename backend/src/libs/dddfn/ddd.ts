@@ -1,10 +1,9 @@
-import {isNominalObject, Nominal, NominalObject, NominalToken} from "../nominal";
+import {createNominalObject, isNominalObject, Nominal, NominalObject, NominalToken} from "../nominal";
 
-export type VO<T, Token extends symbol> = NominalObject<T, Token>
+export type VO<T, Token extends symbol | string> = NominalObject<T, Token>
 export const VO = NominalObject
 export const isVO = isNominalObject
-
-export const createVO = <T, Token extends symbol>(token: Token): [
+export const createVO = <T, Token extends symbol | string>(token: Token): [
   vo: (values: T) => VO<T, Token>,
   isVO: (values: NominalObject<any, any>) => values is T,
 ] => {
@@ -16,22 +15,19 @@ export const createVO = <T, Token extends symbol>(token: Token): [
 
 // TODO. Fix id name
 export type Entity<
-  Token extends symbol,
+  Token extends symbol | string,
   IDV,
   Type,
 > = VO<Type & { id: IDV }, Token>
-export const Entity = <Token extends symbol, T, IDV>(token: Token, idValue: IDV, values: T): Entity<Token, IDV, T> => {
-  return VO({
-      ...values,
-      id: idValue,
-  }, token)
+export const Entity = <Token extends symbol | string, T, IDV>(token: Token, values: T & {id: IDV}): Entity<Token, IDV, T> => {
+  return VO(values, token)
 }
-export const createEntity = <T, Token extends symbol, IDV>(token: Token, idValue: IDV): [
-  entity: (values: T) => Entity<Token, IDV, T>,
+export const createEntity = <T, IDV> () => <Token extends symbol | string>(token: Token): [
+  entity: (values: T & { id: IDV}) => Entity<Token, IDV, T>,
   isVO: (values: NominalObject<any, any>) => values is T,
 ] => {
   return [
-    (values: T) => Entity(token, idValue, values),
+    (values: T & { id: IDV}) => Entity(token, values),
     (value: Nominal<any, any>): value is T => value[NominalToken] === token
   ]
 }

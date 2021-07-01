@@ -1,8 +1,6 @@
 import {Email} from "libs/dddfn/casualTypes";
 import {HashedPassword, Password} from "../../entities/password.vo";
-import {Token, User, UserId} from "../../entities/user.aggregate";
-import {v4} from "uuid";
-import {isErr, ResultP, SimpleResultP} from "../../../../../libs/dddfn/result";
+import {User, UserId} from "../../entities/user.aggregate";
 
 export type RegisterCommand = {
   email: Email
@@ -28,10 +26,10 @@ export const register = (userRepo: UserRepository) => async (cmd: RegisterComman
   }
 
   // . If not, than create User
-  const user = User({
-    id:  UserId(v4()),
+  const user = User.create({
+    id:  UserId.new(),
     email: cmd.email,
-    password: HashedPassword(cmd.password),
+    password: HashedPassword.create(cmd.password),
   })
 
   // . Create user in repo

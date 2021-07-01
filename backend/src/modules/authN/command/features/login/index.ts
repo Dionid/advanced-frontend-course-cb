@@ -1,6 +1,7 @@
 import {Email} from "libs/dddfn/casualTypes";
-import {newHashedPassword, Password} from "../../entities/password.vo";
-import {newToken, Token, User} from "../../entities/user.aggregate";
+import {HashedPassword, Password} from "../../entities/password.vo";
+import {User} from "../../entities/user.aggregate";
+import {Token} from "../../entities/token";
 
 
 export type LoginCommand = {
@@ -25,14 +26,14 @@ export const login = (userRepo: UserRepository) => async (cmd: LoginCommand): Pr
     throw new IncorrectPasswordOrEmail()
   }
 
-  const hashedPassword = newHashedPassword(cmd.password)
+  const hashedPassword = HashedPassword.create(cmd.password)
 
   if (hashedPassword !== user.password) {
     throw new IncorrectPasswordOrEmail()
   }
 
   // . Create token
-  const token = newToken(
+  const token = Token.create(
     user.id,
     user.email,
   )

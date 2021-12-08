@@ -1,9 +1,9 @@
 import {FunctionComponent, useEffect, useMemo, useState} from "react";
-import {MeRepository} from "../../../../modules/global/me/infra/repositories/meRepository";
+import {MeRepository, NotAuthed} from "../../../../modules/global/me/infra/repositories/meRepository";
 import {RootState} from "../../infra/redux/store";
 import {AuthNUC} from "../../../../modules/global/auth/core/usecases/authN";
 import {AuthRepo} from "../../../../modules/global/auth/infra/repositories/authRepo";
-import {MeUC, NotAuthed} from "../../../../modules/global/me/core/usecases/me";
+import {MeUC} from "../../../../modules/global/me/core/usecases/me";
 import {useSelector, useStore} from "react-redux";
 import {GqlApi} from "../../infra/gql/api";
 import {
@@ -24,15 +24,16 @@ export const GlobalDependenciesContextProvider: FunctionComponent = ({ children 
 
   const value: GlobalDependenciesContextState = useMemo(() => {
     // REPOSITORIES
-    const meRepository = new MeRepository(
-      () => store.getState().me,
-      store.dispatch,
-      () => store.getState().auth.token,
-      gqlApi,
-    )
     const authRepository = new AuthRepo(
       () => store.getState().auth,
       store.dispatch,
+      gqlApi,
+    )
+    const meRepository = MeRepository(
+      () => store.getState().me,
+      store.dispatch,
+      () => store.getState().auth.token,
+      authRepository.isAuthenticated,
       gqlApi,
     )
 
@@ -41,9 +42,8 @@ export const GlobalDependenciesContextProvider: FunctionComponent = ({ children 
       authRepository,
       meRepository,
     )
-    const meUC = new MeUC(
+    const meUC = MeUC(
       meRepository,
-      authRepository,
     )
 
     return {
@@ -66,9 +66,11 @@ export const GlobalDependenciesContextProvider: FunctionComponent = ({ children 
       },
       routes: {
         home: () => `/`,
+        register: () => `/auth/register`,
         login: () => `/auth/login`,
         roomById: (id: string) => `/rooms/${id}`,
         pa: () => `/pa`,
+        comrades: () => `/comrades`,
       }
     }
   }, [])
@@ -77,7 +79,7 @@ export const GlobalDependenciesContextProvider: FunctionComponent = ({ children 
   useEffect(() => {
     if (auth.token) {
       try {
-        value.usecases.meUC.getOrFetchMe()
+        value.repositories.meRepository.getOrFetchMe()
       } catch (e) {
         debugger
         if (e instanceof NotAuthed) {

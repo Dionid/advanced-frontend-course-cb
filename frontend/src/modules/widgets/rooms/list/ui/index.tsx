@@ -74,4 +74,4 @@ const RoomsListWidgetInner = () => {
   )
 }
 
-export const RoomsListWidget = memo(withContext(RoomsListWidgetContextProvider, RoomsListWidgetInner))
+export const RoomsListWidget = memo(withContext(RoomsListWidgetContextProvider, memo(RoomsListWidgetInner)))

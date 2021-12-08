@@ -11,11 +11,10 @@ import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {HomePage} from "../../../modules/pages/home";
-import {RoomsPage} from "../../../modules/pages/room/ui";
+import {RoomsPage} from "../../../modules/pages/room";
 import {AuthPage} from "../../../modules/pages/auth";
 import {AuthNProtectedRoute} from "../../../modules/pages/common/ui/AuthNProtectedRoute";
-import {PAPage} from "../../../modules/pages/pa/ui";
-
+import {PAPage} from "../../../modules/pages/pa";
 
 
 const Router = () => {

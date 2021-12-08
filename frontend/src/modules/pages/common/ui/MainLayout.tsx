@@ -124,7 +124,6 @@ export const MainLayout: FunctionComponent = ({children}) => {
   const gmCtx = useGlobalModalContext()
   const { selectors, routes } = useGlobalDependenciesContext()
   const showCreateRoom = canUserCreateRoom(selectors.isAuthenticated)
-  const showComrades = selectors.isAuthenticated()
 
   return (
     <Container>
@@ -141,15 +140,6 @@ export const MainLayout: FunctionComponent = ({children}) => {
                 <Button color="inherit" onClick={ () => gmCtx.fns.showGlobalModal(<RoomCreateWidgetWrapper/>) }>
                   Create room
                 </Button>
-              )
-            }
-            {
-              showComrades && (
-                <Link to={ routes.comrades() } style={{color: "inherit", textDecoration: "none"}}>
-                  <Button color="inherit">
-                    Comrades
-                  </Button>
-                </Link>
               )
             }
           </div>
